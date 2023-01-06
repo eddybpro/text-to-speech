@@ -7,6 +7,7 @@ speechBtn = document.querySelector('button');
 
 let synth = speechSynthesis;
 isSpeaking = true;
+voices();
 
 function voices(){
     for (let voice of synth.getVoices()) {
@@ -27,6 +28,8 @@ function textToSpeech(text){
             utternance.voice = voice;
         }
     }
+    synth.cancel();
+
     synth.speak(utternance);
 }
 
@@ -47,6 +50,14 @@ speechBtn.addEventListener('click', e => {
                 isSpeaking = true;
                 speechBtn.innerText ='Resume Speech'
             }
+            setInterval(()=>{
+                if(!synth.speaking && !isSpeaking){
+                    isSpeaking = true;
+                    speechBtn.innerText = 'Convert to Speech';
+                }
+            })
+        }else{
+            speechBtn.innerText = 'Convert to Speech';
         }
     }
 })
